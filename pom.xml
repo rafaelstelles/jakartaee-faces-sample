@@ -42,27 +42,30 @@
         <eclipselink.version>4.0.0</eclipselink.version>
 
         <!-- Payara server -->
-        <payara.version>6.2022.1</payara.version>
-        <arquillian-payara.version>3.0.alpha7</arquillian-payara.version>
+		<payara.version>6.2022.1</payara.version>
+		<arquillian-payara.version>3.0.alpha7</arquillian-payara.version>
 
-        <!-- Wildfly server-->
+		<!-- Wildfly server-->
 		<wildfly.version>27.0.1.Final</wildfly.version>
-        <wildfly-maven-plugin.version>4.0.0.Final</wildfly-maven-plugin.version>
-        <wildfly-arquillian.version>5.0.0.Alpha6</wildfly-arquillian.version>
-        <!--  websockets-jsr and resteasy for client, aligned with Wildfly version. -->
-        <undertow-websockets-jsr.version>2.0.26.Final</undertow-websockets-jsr.version>
-        <resteasy.version>6.2.0.Final</resteasy.version>
+		<wildfly-maven-plugin.version>4.0.0.Final</wildfly-maven-plugin.version>
+		<wildfly-arquillian.version>5.0.0.Alpha6</wildfly-arquillian.version>
+		<!--  websockets-jsr and resteasy for client, aligned with Wildfly version. -->
+		<undertow-websockets-jsr.version>2.0.26.Final</undertow-websockets-jsr.version>
+		<resteasy.version>6.2.0.Final</resteasy.version>
 
-        <!-- OpenLiberty server -->
-        <liberty.runtime.version>22.0.0.12</liberty.runtime.version>
-        <!-- WARNING: 10.15.x.x does not work with openliberty 20.0.0.1 -->
-        <derby.version>10.14.2.0</derby.version>
-        <liberty-maven-plugin.version>3.7.1</liberty-maven-plugin.version>
-        
-        <!-- By default, skip tests -->
-        <skipTests>true</skipTests>
-        
-        <!-- PhantomJS will be our default browser if no profile is specified-->
+		<!-- Rewrite -->
+		<rewrite.version>6.0.0.Alpha1</rewrite.version>
+
+		<!-- OpenLiberty server -->
+		<liberty.runtime.version>22.0.0.12</liberty.runtime.version>
+		<!-- WARNING: 10.15.x.x does not work with openliberty 20.0.0.1 -->
+		<derby.version>10.14.2.0</derby.version>
+		<liberty-maven-plugin.version>3.7.1</liberty-maven-plugin.version>
+
+		<!-- By default, skip tests -->
+		<skipTests>true</skipTests>
+
+		<!-- PhantomJS will be our default browser if no profile is specified-->
         <browser>phantomjs</browser> 
     </properties>
     <dependencyManagement>
@@ -72,26 +75,26 @@
                 <artifactId>jakarta.jakartaee-api</artifactId>
                 <version>${jakartaee-api.version}</version>
                 <scope>provided</scope>
-            </dependency>
+			</dependency>
 
-            <!-- Arquillian Drone dependencies and WebDriver/Selenium dependencies -->
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>${arquillian.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
+			<!-- Arquillian Drone dependencies and WebDriver/Selenium dependencies -->
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>${arquillian.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
 
-            <!-- Arquillian Drone dependencies and WebDriver/Selenium dependencies -->
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-bom</artifactId>
-                <version>${arquillian-drone.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- To use Arquillian Graphene 2-->
+			<!-- Arquillian Drone dependencies and WebDriver/Selenium dependencies -->
+			<dependency>
+				<groupId>org.jboss.arquillian.extension</groupId>
+				<artifactId>arquillian-drone-bom</artifactId>
+				<version>${arquillian-drone.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- To use Arquillian Graphene 2-->
             <dependency>
                 <groupId>org.jboss.arquillian.graphene</groupId>
                 <artifactId>graphene-webdriver</artifactId>
@@ -166,20 +169,48 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-api</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-            <version>${eclipselink.version}</version>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.ocpsoft.rewrite</groupId>
+			<artifactId>rewrite-servlet</artifactId>
+			<version>${rewrite.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ocpsoft.rewrite</groupId>
+			<artifactId>rewrite-annotations-api</artifactId>
+			<version>${rewrite.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ocpsoft.rewrite</groupId>
+			<artifactId>rewrite-integration-faces</artifactId>
+			<version>${rewrite.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ocpsoft.rewrite</groupId>
+			<artifactId>rewrite-config-prettyfaces</artifactId>
+			<version>${rewrite.version}</version>
+			<!--Já vem em rewrite-servlet-->
+			<exclusions>
+				<exclusion>
+					<artifactId>rewrite-annotations-impl</artifactId>
+					<groupId>org.ocpsoft.rewrite</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-        <dependency>
-            <groupId>org.jboss.arquillian.junit5</groupId>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+			<version>${eclipselink.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.junit5</groupId>
             <artifactId>arquillian-junit5-core</artifactId>
             <scope>test</scope>
         </dependency>
