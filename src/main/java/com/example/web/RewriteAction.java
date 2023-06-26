@@ -19,7 +19,7 @@ public class RewriteAction implements Serializable {
 	@PostConstruct
 	@URLAction(mappingId = "rewrite-ample")
 	public void init() {
-		System.out.println("Chegou aqui..");
+		System.out.println("Init here..");
 	}
 
 	public String getName() {
